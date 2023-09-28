@@ -1,0 +1,132 @@
+Step 1: Create a PostgreSQL Table
+
+Create a table named progress_bar_types in your PostgreSQL database. You can use the provided SQL script as a reference:
+
+
+CREATE TABLE IF NOT EXISTS public.progress_bar_types
+(
+    id serial PRIMARY KEY,
+    type character varying(255) COLLATE pg_catalog."default",
+    show_on_bar boolean,
+    parent_id integer,
+    autotrigger boolean,
+    autotrigger_id integer,
+    lock boolean,
+    isbucket boolean,
+    bucket_desc character varying(255) COLLATE pg_catalog."default",
+    iscomplete boolean,
+    end_bar boolean,
+    added_by bigint,
+    added_on timestamp without time zone DEFAULT now(),
+    isactive boolean,
+    is_assignee boolean DEFAULT false
+);
+
+
+Step 2: Populate the Table
+
+You should populate the table with sample data to demonstrate the parent-child relationships.
+
+
+
+Sample data retrival will be like this 
+
+
+
+
+
+{
+    "id": 1,
+    "lock": false,
+    "type": "Type 1",
+    "is_bucket": true,
+    "parent_id": null,
+    "bucket_desc": "Bucket 1",
+    "is_complete": false,
+    "show_on_bar": true,
+    "auto_trigger": true,
+    "autotrigger_id": 2,
+    "sub_progress_data": [
+        {
+            "id": 2,
+            "lock": false,
+            "type": "Type 2",
+            "is_bucket": false,
+            "parent_id": 1,
+            "bucket_desc": "Bucket 2",
+            "is_complete": false,
+            "show_on_bar": true,
+            "auto_trigger": true,
+            "autotrigger_id": 2,
+            "sub_progress_data": [
+                {
+                    "id": 4,
+                    "lock": false,
+                    "type": "Type 4",
+                    "is_bucket": true,
+                    "parent_id": 2,
+                    "bucket_desc": "Bucket 4",
+                    "is_complete": false,
+                    "show_on_bar": true,
+                    "auto_trigger": true,
+                    "autotrigger_id": 2,
+                    "sub_progress_data": []
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "lock": true,
+            "type": "Type 3",
+            "is_bucket": true,
+            "parent_id": 1,
+            "bucket_desc": "Bucket 3",
+            "is_complete": false,
+            "show_on_bar": true,
+            "auto_trigger": true,
+            "autotrigger_id": 2,
+            "sub_progress_data": [
+                {
+                    "id": 5,
+                    "lock": true,
+                    "type": "Type 5",
+                    "is_bucket": false,
+                    "parent_id": 3,
+                    "bucket_desc": "Bucket 5",
+                    "is_complete": false,
+                    "show_on_bar": true,
+                    "auto_trigger": true,
+                    "autotrigger_id": 2,
+                    "sub_progress_data": [
+                        {
+                            "id": 7,
+                            "lock": true,
+                            "type": "Type 7",
+                            "is_bucket": true,
+                            "parent_id": 5,
+                            "bucket_desc": "Bucket 7",
+                            "is_complete": false,
+                            "show_on_bar": true,
+                            "auto_trigger": true,
+                            "autotrigger_id": 2,
+                            "sub_progress_data": []
+                        }
+                    ]
+                },
+                {
+                    "id": 6,
+                    "lock": false,
+                    "type": "Type 6",
+                    "is_bucket": true,
+                    "parent_id": 3,
+                    "bucket_desc": "Bucket 6",
+                    "is_complete": false,
+                    "show_on_bar": true,
+                    "auto_trigger": true,
+                    "autotrigger_id": 2,
+                    "sub_progress_data": []
+                }
+            ]
+        }
+    ]
+}
